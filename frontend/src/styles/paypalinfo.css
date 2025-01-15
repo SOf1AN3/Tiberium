@@ -1,0 +1,135 @@
+.paypal-container {
+   display: flex;
+   height: 100vh;
+   background-color: var(--color-darkest);
+   justify-content: center;
+   align-items: center;
+   padding: 32px;
+}
+
+.paypal-card {
+   width: 460px;
+   background-color: var(--color-dark);
+   border-radius: 12px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.paypal-header {
+   display: flex;
+   align-items: center;
+   padding: 24px;
+   border-bottom: 1px solid var(--color-gray-dark);
+   background-color: var(--color-gray-dark);
+   border-radius: 12px 12px 0 0;
+}
+
+.paypal-avatar {
+   width: 70px;
+   height: 70px;
+   border-radius: 50%;
+   background-color: var(--color-purple);
+   color: var(--color-white);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-right: 20px;
+   font-size: 1.8em;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.paypal-header-info h2 {
+   margin: 0 0 8px 0;
+   color: var(--color-white);
+   font-size: 1.5em;
+}
+
+.paypal-header-info p {
+   margin: 0;
+   color: var(--color-gray-lighter);
+   font-weight: 500;
+}
+
+.paypal-content {
+   padding: 24px;
+   color: var(--color-white);
+}
+
+.info-item {
+   margin-bottom: 20px;
+}
+
+.info-item strong {
+   display: block;
+   color: var(--color-slate-300);
+   margin-bottom: 8px;
+}
+
+.info-item p {
+   margin: 0;
+   font-size: 1.1em;
+}
+
+.qr-section {
+   margin-top: 24px;
+   text-align: center;
+}
+
+.qr-placeholder {
+   width: 200px;
+   height: 200px;
+   margin: 16px auto;
+   background-color: var(--color-gray-dark);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 8px;
+   color: var(--color-gray-lighter);
+}
+
+.paypal-footer {
+   display: flex;
+   justify-content: space-between;
+   padding: 20px 24px;
+   border-top: 1px solid var(--color-gray-dark);
+   background-color: var(--color-gray-dark);
+   border-radius: 0 0 12px 12px;
+}
+
+.btn-primary {
+   background-color: var(--color-purple);
+   color: var(--color-white);
+}
+
+.btn-primary:hover {
+   background-color: var(--color-purple-light);
+}
+
+@media (max-width: 768px) {
+   .paypal-container {
+      padding: 16px;
+   }
+
+   .paypal-card {
+      width: 100%;
+   }
+
+   .paypal-avatar {
+      width: 50px;
+      height: 50px;
+      font-size: 1.4em;
+   }
+
+   .paypal-footer {
+      flex-direction: column;
+      gap: 10px;
+   }
+
+   .paypal-footer .btn {
+      width: 100%;
+   }
+
+   .qr-placeholder {
+      width: 150px;
+      height: 150px;
+   }
+}

@@ -1,0 +1,97 @@
+.subscription-container {
+   min-height: 100vh;
+   background-color: var(--color-darkest);
+   padding: 2rem;
+}
+
+.subscription-header {
+   text-align: center;
+   color: var(--color-white);
+   margin-bottom: 3rem;
+}
+
+.plans-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: 2rem;
+   max-width: 1200px;
+   margin: 0 auto;
+}
+
+.plan-card {
+   background-color: var(--color-dark);
+   border-radius: 12px;
+   padding: 2rem;
+   transition: transform 0.3s ease;
+   border: 2px solid var(--color-gray-dark);
+}
+
+.plan-card:hover {
+   transform: translateY(-5px);
+   border-color: var(--color-purple);
+}
+
+.plan-name {
+   color: var(--color-white);
+   font-size: 1.5rem;
+   margin-bottom: 1rem;
+   text-align: center;
+}
+
+.plan-price {
+   color: var(--color-purple);
+   font-size: 2.5rem;
+   font-weight: bold;
+   text-align: center;
+   margin-bottom: 1.5rem;
+}
+
+.plan-features {
+   list-style: none;
+   padding: 0;
+   margin: 0 0 2rem 0;
+}
+
+.plan-features li {
+   color: var(--color-gray-lighter);
+   padding: 0.5rem 0;
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+}
+
+.plan-features li::before {
+   content: "✓";
+   color: var(--color-purple);
+}
+
+.select-plan-btn {
+   width: 100%;
+   padding: 1rem;
+   border: none;
+   border-radius: 6px;
+   background-color: var(--color-purple);
+   color: var(--color-white);
+   font-weight: 600;
+   cursor: pointer;
+   transition: background-color 0.2s ease;
+}
+
+.select-plan-btn:hover {
+   background-color: var(--color-purple-light);
+}
+
+.selected-plan {
+   border-color: var(--color-purple);
+   background-color: var(--color-gray-dark);
+}
+
+@media (max-width: 768px) {
+   .subscription-container {
+      padding: 1rem;
+   }
+
+   .plans-container {
+      grid-template-columns: 1fr;
+   }
+}

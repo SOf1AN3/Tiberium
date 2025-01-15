@@ -25,6 +25,8 @@ import './styles/services.css';
 import './styles/contact.css';
 import './styles/connexion.css';
 import './styles/expats.css';
+import Subscription from './components/Subscription';
+import PaypalInfo from './components/PaypalInfo';
 
 function App() {
   return (
@@ -42,6 +44,8 @@ function App() {
             <Route path="/expats" element={<Expats />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/settings" element={<ProfileSettings />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/payment" element={<PaypalInfo />} />
             {/* Protected Routes */}
 
 

@@ -12,7 +12,7 @@ Tiberium is a full-stack web application built with React + Vite for the fronten
 ### Installation
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone https://github.com/SOf1AN3/Tiberium
 ```
 
 2. Install dependencies for both frontend and backend:
