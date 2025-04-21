@@ -11,7 +11,7 @@ const Users = () => {
    const [showManageModal, setShowManageModal] = useState(false);
    const [userToManage, setUserToManage] = useState(null);
 
-   const USER_TYPES = ['simple', 'advanced', 'premium', 'admin'];
+   const USER_TYPES = ['simple', 'administrative', 'legale', 'demenagement', 'venteAchat', 'sejour', 'admin'];
 
    useEffect(() => {
       loadUsers();
@@ -55,17 +55,14 @@ const Users = () => {
          if (response.ok) {
             const updatedUser = await response.json();
 
-            // Mise à jour de la liste des utilisateurs
             setUsers(users.map(u =>
                u._id === userToManage._id ? { ...u, type: newType } : u
             ));
 
-            // Mise à jour de l'utilisateur sélectionné si c'est celui qui a été modifié
             if (selectedUser && selectedUser._id === userToManage._id) {
                setSelectedUser({ ...selectedUser, type: newType });
             }
 
-            // Mise à jour de l'utilisateur en cours de gestion
             setUserToManage({ ...userToManage, type: newType });
          } else {
             const errorData = await response.json();

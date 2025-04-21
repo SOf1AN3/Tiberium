@@ -8,49 +8,67 @@ const Subscription = () => {
 
    const plans = [
       {
-         id: 'simple',
-         name: 'Simple',
-         price: '9.99',
+         id: 'administrative',
+         name: 'Assistance administrative',
+         price: '30.99',
          features: [
-            'Basic features access',
-            'Email support',
-            'Up to 5 projects',
-            '1GB storage'
+            'Aide aux démarches administratives',
+            'Support par email et téléphone',
+            'Suivi personnalisé',
+            'Aide à la rédaction de documents'
          ]
       },
       {
-         id: 'advanced',
-         name: 'Advanced',
-         price: '19.99',
+         id: 'legal',
+         name: 'Assistance légale',
+         price: '59.99',
          features: [
-            'All Simple features',
-            'Priority email support',
-            'Up to 15 projects',
-            '10GB storage',
-            'Advanced analytics'
+            'Conseil juridique',
+            'Révision de documents légaux',
+            'Assistance contentieux',
+            'Support juridique prioritaire',
+            'Consultation avec des experts'
          ]
       },
       {
-         id: 'premium',
-         name: 'Premium',
-         price: '29.99',
+         id: 'moving',
+         name: 'Assistance déménagement',
+         price: '10.99',
          features: [
-            'All Advanced features',
-            '24/7 phone support',
-            'Unlimited projects',
-            '100GB storage',
-            'Custom analytics',
-            'API access',
-            'Dedicated account manager'
+            'Planification du déménagement',
+            'Recherche de prestataires',
+            'Conseils organisation',
+            'Check-list personnalisée'
+         ]
+      },
+      {
+         id: 'buyingselling',
+         name: 'Assistance achat et vente',
+         price: '10.99',
+         features: [
+            'Conseil en négociation',
+            'Vérification des documents',
+            'Accompagnement transaction',
+            'Évaluation de biens'
+         ]
+      },
+      {
+         id: 'travel',
+         name: 'Assistance Séjour',
+         price: '10.99',
+         features: [
+            'Planification de voyage',
+            'Réservations',
+            'Assistance 24/7',
+            'Conseils locaux',
+            'Support urgence'
          ]
       }
    ];
 
    const handleSelectPlan = (planId) => {
       setSelectedPlan(planId);
-      // Here you would typically handle the subscription process
-      // For now, we'll just console.log
-      console.log(`Selected plan: ${planId}`);
+      navigate('/payment');
    };
 
    return (

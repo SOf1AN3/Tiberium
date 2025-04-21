@@ -16,8 +16,8 @@ const userSchema = new mongoose.Schema({
      },
      type: {
           type: String,
-          enum: ['simple', 'advanced', 'premium', 'admin'],
-          default: 'user'
+          enum: ['simple', 'administrative', 'legale', 'demenagement', 'venteAchat', 'sejour', 'admin'],
+          default: 'simple'
      },
      isConfirmed: {
           type: Boolean,

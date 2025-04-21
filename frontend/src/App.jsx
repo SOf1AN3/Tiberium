@@ -17,6 +17,8 @@ import Messages from './pages/Messages';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import ProfileSettings from './components/ProfileSettings';
+import Subscription from './components/Subscription';
+import PaypalInfo from './components/PaypalInfo';
 
 // Import styles
 import './App.css';
@@ -25,8 +27,6 @@ import './styles/services.css';
 import './styles/contact.css';
 import './styles/connexion.css';
 import './styles/expats.css';
-import Subscription from './components/Subscription';
-import PaypalInfo from './components/PaypalInfo';
 
 function App() {
   return (

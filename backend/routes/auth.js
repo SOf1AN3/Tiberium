@@ -140,7 +140,6 @@ router.get('/messages/:userId', authMiddleware, async (req, res) => {
 
 router.patch('/users/:userId/type', authMiddleware, async (req, res) => {
    try {
-      // Vérifier que seul un admin peut effectuer cette action
       if (req.user.type !== 'admin') {
          return res.status(403).json({ error: 'Unauthorized' });
       }
@@ -148,8 +147,9 @@ router.patch('/users/:userId/type', authMiddleware, async (req, res) => {
       const { userId } = req.params;
       const { type } = req.body;
 
-      // Valider le type - mettre à jour avec les nouveaux types
-      if (!['simple', 'advanced', 'premium', 'admin'].includes(type)) {
+      // Validation avec les types corrects
+      const validTypes = ['simple', 'administrative', 'legale', 'demenagement', 'venteAchat', 'sejour', 'admin'];
+      if (!validTypes.includes(type)) {
          return res.status(400).json({ error: 'Invalid user type' });
       }
 
@@ -161,7 +161,7 @@ router.patch('/users/:userId/type', authMiddleware, async (req, res) => {
       const updatedUser = await User.findByIdAndUpdate(
          userId,
          { type },
-         { new: true }
+         { new: true, runValidators: true }  // Ajout de runValidators pour s'assurer que mongoose valide le type
       );
 
       if (!updatedUser) {
@@ -171,6 +171,9 @@ router.patch('/users/:userId/type', authMiddleware, async (req, res) => {
       res.json({ user: updatedUser });
    } catch (error) {
       console.error('Error changing user type:', error);
+      if (error.name === 'ValidationError') {
+         return res.status(400).json({ error: 'Invalid user type' });
+      }
       res.status(500).json({ error: 'Server error' });
    }
 });

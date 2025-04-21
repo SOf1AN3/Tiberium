@@ -23,7 +23,7 @@ const PaypalInfo = () => {
 
                <div className="info-item">
                   <strong>Account Holder:</strong>
-                  <p>Your Name</p>
+                  <p>Abdelkrim Oudina</p>
                </div>
 
                <div className="qr-section">
