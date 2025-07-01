@@ -98,5 +98,15 @@
    "chat_no_messages": "Pas encore de messages. Commencez la conversation !",
    "chat_users_online": "Utilisateurs en ligne",
    "chat_with": "Discuter avec",
-   "chat_admin_label": "Admin"
+   "chat_admin_label": "Admin",
+   "inscription_error_name_required": "Le nom est requis",
+   "inscription_error_email_required": "L'email est requis",
+   "inscription_error_invalid_email": "Veuillez entrer une adresse email valide",
+   "inscription_error_password_length": "Le mot de passe doit contenir au moins 6 caractères",
+   "inscription_error_passwords_not_match": "Les mots de passe ne correspondent pas",
+   "inscription_error_signup_failed": "Une erreur s'est produite lors de l'inscription",
+   "connexion_error_email_required": "L'email est requis",
+   "connexion_error_invalid_email": "Veuillez entrer une adresse email valide",
+   "connexion_error_password_required": "Le mot de passe est requis",
+   "connexion_error_login_failed": "Une erreur s'est produite lors de la connexion"
 }

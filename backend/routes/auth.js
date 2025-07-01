@@ -138,13 +138,13 @@ router.get('/messages/:userId', authMiddleware, async (req, res) => {
    }
 });
 
-router.patch('/users/:userId/type', authMiddleware, async (req, res) => {
+router.patch('/users/:id/type', authMiddleware, async (req, res) => {
    try {
       if (req.user.type !== 'admin') {
          return res.status(403).json({ error: 'Unauthorized' });
       }
 
-      const { userId } = req.params;
+      const { id } = req.params;
       const { type } = req.body;
 
       // Validation avec les types corrects
@@ -154,12 +154,12 @@ router.patch('/users/:userId/type', authMiddleware, async (req, res) => {
       }
 
       // Interdire de modifier son propre compte
-      if (userId === req.user._id.toString()) {
+      if (id === req.user._id.toString()) {
          return res.status(403).json({ error: 'Cannot modify your own account' });
       }
 
       const updatedUser = await User.findByIdAndUpdate(
-         userId,
+         id,
          { type },
          { new: true, runValidators: true }  // Ajout de runValidators pour s'assurer que mongoose valide le type
       );
@@ -178,30 +178,30 @@ router.patch('/users/:userId/type', authMiddleware, async (req, res) => {
    }
 });
 
-router.delete('/users/:userId', authMiddleware, async (req, res) => {
+router.delete('/users/:id', authMiddleware, async (req, res) => {
    try {
       // Vérifier que seul un admin peut effectuer cette action
       if (req.user.type !== 'admin') {
          return res.status(403).json({ error: 'Unauthorized' });
       }
 
-      const { userId } = req.params;
+      const { id } = req.params;
 
       // Interdire de supprimer son propre compte
-      if (userId === req.user._id.toString()) {
+      if (id === req.user._id.toString()) {
          return res.status(403).json({ error: 'Cannot delete your own account' });
       }
 
       // Supprimer d'abord les messages
       await Message.deleteMany({
          $or: [
-            { senderId: userId },
-            { receiverId: userId }
+            { senderId: id },
+            { receiverId: id }
          ]
       });
 
       // Puis supprimer l'utilisateur
-      const deletedUser = await User.findByIdAndDelete(userId);
+      const deletedUser = await User.findByIdAndDelete(id);
 
       if (!deletedUser) {
          return res.status(404).json({ error: 'User not found' });
@@ -211,8 +211,8 @@ router.delete('/users/:userId', authMiddleware, async (req, res) => {
          message: 'User and associated messages deleted successfully',
          deletedMessages: await Message.countDocuments({
             $or: [
-               { senderId: userId },
-               { receiverId: userId }
+               { senderId: id },
+               { receiverId: id }
             ]
          })
       });

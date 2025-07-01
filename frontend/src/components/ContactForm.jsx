@@ -101,7 +101,7 @@ const ContactForm = () => {
                         placeholder={t('contact_form_message_placeholder')}
                         disabled={isLoading}
                     ></textarea>
-                    <button type="submit" disabled={isLoading}>
+                    <button type="submit" disabled={isLoading || isSubmitted}>
                         {isLoading ? (
                             <div className="loading-spinner"></div>
                         ) : isSubmitted ? (

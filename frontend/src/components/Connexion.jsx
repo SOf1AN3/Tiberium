@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import '../styles/connexion.css';
@@ -12,18 +12,43 @@ const Connexion = () => {
           rester: false
      });
      const [error, setError] = useState('');
+     const [isLoading, setIsLoading] = useState(false);
+
+     const validateForm = () => {
+          if (!formData.email.trim()) {
+               setError(t('connexion_error_email_required'));
+               return false;
+          }
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(formData.email)) {
+               setError(t('connexion_error_invalid_email'));
+               return false;
+          }
+          if (!formData.password.trim()) {
+               setError(t('connexion_error_password_required'));
+               return false;
+          }
+          return true;
+     };
 
      const handleSubmit = async (e) => {
           e.preventDefault();
           setError('');
 
+          if (!validateForm()) {
+               return;
+          }
+
+          setIsLoading(true);
           try {
                const data = await login(formData.email, formData.password, formData.rester);
-               console.log('Login successful:', data);
-               window.location.href = '/';
+               if (data) {
+                    window.location.href = '/';
+               }
           } catch (error) {
-               console.error('Login error:', error);
-               setError(error.message || 'Login failed');
+               setError(error.message || t('connexion_error_login_failed'));
+          } finally {
+               setIsLoading(false);
           }
      };
 
@@ -48,6 +73,7 @@ const Connexion = () => {
                               placeholder={t('connexion_email_placeholder')}
                               value={formData.email}
                               onChange={handleChange}
+                              disabled={isLoading}
                               required
                          />
                          <input
@@ -57,6 +83,7 @@ const Connexion = () => {
                               placeholder={t('connexion_password_placeholder')}
                               value={formData.password}
                               onChange={handleChange}
+                              disabled={isLoading}
                               required
                          />
                          <div className="rester-container">
@@ -67,12 +94,19 @@ const Connexion = () => {
                                    className='rester'
                                    checked={formData.rester}
                                    onChange={handleChange}
+                                   disabled={isLoading}
                               />
                               <label htmlFor="rester" className="rester-label">
                                    {t('connexion_rester_label')}
                               </label>
                          </div>
-                         <button type="submit">{t('connexion_button')}</button>
+                         <button type="submit" disabled={isLoading}>
+                              {isLoading ? (
+                                   <div className="loading-spinner"></div>
+                              ) : (
+                                   t('connexion_button')
+                              )}
+                         </button>
                          <a className='inscrire' href="/inscription">{t('connexion_signup_link')}</a>
                     </form>
                </div>

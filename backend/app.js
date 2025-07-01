@@ -33,6 +33,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.get('/health', (req, res) => {
+     res.status(200).json({
+          status: 'OK',
+          timestamp: new Date().toISOString(),
+          uptime: process.uptime(),
+          environment: process.env.NODE_ENV || 'development'
+     });
+});
+
 app.use('/auth', require('./routes/auth'));
 app.use('/messages', require('./routes/messages'));
 
@@ -58,12 +67,51 @@ io.use(async (socket, next) => {
      }
 });
 
+// Socket middleware for authentication
+io.use(async (socket, next) => {
+     try {
+          const token = socket.handshake.auth.token;
+          if (!token) {
+               return next(new Error('Authentication token required'));
+          }
+
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          const user = await User.findById(decoded.userId);
+          if (!user) {
+               return next(new Error('User not found'));
+          }
+
+          socket.userId = user._id;
+          socket.userType = user.type;
+          socket.userName = user.name;
+          next();
+     } catch (error) {
+          console.error('Socket auth error:', error.message);
+          next(new Error('Authentication failed'));
+     }
+});
+
+// Store connected users
+const connectedUsers = new Map();
+
 // Socket events
 io.on('connection', (socket) => {
-     console.log('Client connected:', socket.userId);
+     console.log(`Client connected: ${socket.userName} (${socket.userId})`);
+
+     // Store user connection
+     connectedUsers.set(socket.userId.toString(), {
+          socketId: socket.id,
+          userId: socket.userId,
+          userName: socket.userName,
+          userType: socket.userType,
+          connectedAt: new Date()
+     });
 
      // Join personal room
      socket.join(socket.userId.toString());
+
+     // Broadcast online users to all clients
+     io.emit('usersOnline', Array.from(connectedUsers.values()));
 
      socket.on('sendMessage', async (data) => {
           try {
@@ -71,14 +119,31 @@ io.on('connection', (socket) => {
                     throw new Error('Missing required message data');
                }
 
+               // Sanitize and validate content
+               const sanitizedContent = data.content.trim();
+               if (sanitizedContent.length === 0) {
+                    throw new Error('Message content cannot be empty');
+               }
+               if (sanitizedContent.length > 1000) {
+                    throw new Error('Message content too long (max 1000 characters)');
+               }
+
+               // Filter inappropriate content (basic example)
+               const forbiddenWords = ['spam', 'abuse']; // Add more as needed
+               const containsForbidden = forbiddenWords.some(word =>
+                    sanitizedContent.toLowerCase().includes(word.toLowerCase())
+               );
+               if (containsForbidden) {
+                    throw new Error('Message contains inappropriate content');
+               }
+
                const message = new Message({
                     senderId: socket.userId,
                     receiverId: data.receiverId,
-                    content: data.content.trim(),
+                    content: sanitizedContent,
                     timestamp: new Date(),
                     seen: false
                });
-               console.log('Message:', message);
 
                await message.save();
 
@@ -94,25 +159,52 @@ io.on('connection', (socket) => {
                     isSentByMe: true
                });
           } catch (error) {
-               console.error('Message error:', error);
-               socket.emit('error', {
+               console.error('Message error:', error.message);
+               socket.emit('messageError', {
                     type: 'MESSAGE_ERROR',
                     message: error.message
                });
           }
      });
 
-     socket.on('disconnect', () => {
-          console.log('Client disconnected:', socket.userId);
+     socket.on('disconnect', (reason) => {
+          console.log(`Client disconnected: ${socket.userName} (${socket.userId}) - Reason: ${reason}`);
+
+          // Remove user from connected users
+          connectedUsers.delete(socket.userId.toString());
+
+          // Broadcast updated online users list
+          io.emit('usersOnline', Array.from(connectedUsers.values()));
+     });
+
+     socket.on('reconnect', () => {
+          console.log(`Client reconnected: ${socket.userName} (${socket.userId})`);
+
+          // Update user connection
+          connectedUsers.set(socket.userId.toString(), {
+               socketId: socket.id,
+               userId: socket.userId,
+               userName: socket.userName,
+               userType: socket.userType,
+               connectedAt: new Date()
+          });
+
+          // Broadcast updated online users list
+          io.emit('usersOnline', Array.from(connectedUsers.values()));
      });
 });
 
 // Error handling
 app.use((err, req, res, next) => {
-     console.error(err.stack);
-     res.status(500).json({
+     console.error('Application error:', err.stack);
+
+     // Ne pas exposer les détails d'erreur en production
+     const isDevelopment = process.env.NODE_ENV === 'development';
+
+     res.status(err.status || 500).json({
           error: true,
-          message: err.message || 'Internal server error'
+          message: isDevelopment ? err.message : 'Internal server error',
+          ...(isDevelopment && { stack: err.stack })
      });
 });
 

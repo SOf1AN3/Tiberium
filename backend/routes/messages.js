@@ -54,10 +54,42 @@ router.get('/history/:userId', auth, async (req, res) => {
 router.post('/', auth, async (req, res) => {
    try {
       const { receiverId, content } = req.body;
+
+      // Validation et sanitization
+      if (!receiverId || !content) {
+         return res.status(400).json({ error: 'Receiver ID and content are required' });
+      }
+
+      const sanitizedContent = content.trim();
+      if (sanitizedContent.length === 0) {
+         return res.status(400).json({ error: 'Message content cannot be empty' });
+      }
+      if (sanitizedContent.length < 1) {
+         return res.status(400).json({ error: 'Message must be at least 1 character long' });
+      }
+      if (sanitizedContent.length > 1000) {
+         return res.status(400).json({ error: 'Message cannot exceed 1000 characters' });
+      }
+
+      // Filter inappropriate content
+      const forbiddenWords = ['spam', 'abuse', 'hate', 'harassment'];
+      const containsForbidden = forbiddenWords.some(word =>
+         sanitizedContent.toLowerCase().includes(word.toLowerCase())
+      );
+      if (containsForbidden) {
+         return res.status(400).json({ error: 'Message contains inappropriate content' });
+      }
+
+      // Check if receiver exists
+      const receiver = await User.findById(receiverId);
+      if (!receiver) {
+         return res.status(404).json({ error: 'Receiver not found' });
+      }
+
       const newMessage = new Message({
          senderId: req.user._id,
          receiverId,
-         content,
+         content: sanitizedContent,
          timestamp: new Date()
       });
 

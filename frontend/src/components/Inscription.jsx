@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import '../styles/connexion.css';
@@ -13,23 +13,43 @@ const Inscription = () => {
           confirmPassword: ''
      });
      const [error, setError] = useState('');
+     const [isLoading, setIsLoading] = useState(false);
+
+     const validateForm = () => {
+          if (!formData.name.trim()) {
+               setError(t('inscription_error_name_required'));
+               return false;
+          }
+          if (!formData.email.trim()) {
+               setError(t('inscription_error_email_required'));
+               return false;
+          }
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(formData.email)) {
+               setError(t('inscription_error_invalid_email'));
+               return false;
+          }
+          if (formData.password.length < 6) {
+               setError(t('inscription_error_password_length'));
+               return false;
+          }
+          if (formData.password !== formData.confirmPassword) {
+               setError(t('inscription_error_passwords_not_match'));
+               return false;
+          }
+          return true;
+     };
 
      const handleSubmit = async (e) => {
           e.preventDefault();
           setError('');
 
-          if (formData.password !== formData.confirmPassword) {
-               setError('Passwords do not match');
+          if (!validateForm()) {
                return;
           }
 
+          setIsLoading(true);
           try {
-               console.log('Sending signup request with data:', {
-                    ...formData,
-                    password: '[REDACTED]',
-                    confirmPassword: '[REDACTED]'
-               });
-
                const data = await signup(
                     formData.name,
                     formData.email,
@@ -37,17 +57,13 @@ const Inscription = () => {
                     formData.confirmPassword
                );
 
-               console.log('Signup successful:', data);
-
                if (data) {
-                    window.location.href = '/login';
+                    window.location.href = '/connexion';
                }
           } catch (err) {
-               console.error('Signup error details:', {
-                    message: err.message,
-                    stack: err.stack
-               });
-               setError(err.message || 'An error occurred during signup');
+               setError(err.message || t('inscription_error_signup_failed'));
+          } finally {
+               setIsLoading(false);
           }
      };
 
@@ -101,7 +117,13 @@ const Inscription = () => {
                               <input type="checkbox" name="rester" id="rester" className='rester' onChange={handleChange} />
                               <label htmlFor="rester" className="rester-label">{t('inscription_rester_label')}</label>
                          </div>
-                         <button type="submit">{t('inscription_button')}</button>
+                         <button type="submit" disabled={isLoading}>
+                              {isLoading ? (
+                                   <div className="loading-spinner"></div>
+                              ) : (
+                                   t('inscription_button')
+                              )}
+                         </button>
                          <a className='inscrire' href="/connexion">{t('inscription_login_link')}</a>
                     </form>
                </div>

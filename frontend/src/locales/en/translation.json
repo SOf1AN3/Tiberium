@@ -98,5 +98,15 @@
    "chat_no_messages": "No messages yet. Start the conversation!",
    "chat_users_online": "Users Online",
    "chat_with": "Chat with",
-   "chat_admin_label": "Admin"
+   "chat_admin_label": "Admin",
+   "inscription_error_name_required": "Name is required",
+   "inscription_error_email_required": "Email is required",
+   "inscription_error_invalid_email": "Please enter a valid email address",
+   "inscription_error_password_length": "Password must be at least 6 characters long",
+   "inscription_error_passwords_not_match": "Passwords do not match",
+   "inscription_error_signup_failed": "An error occurred during signup",
+   "connexion_error_email_required": "Email is required",
+   "connexion_error_invalid_email": "Please enter a valid email address",
+   "connexion_error_password_required": "Password is required",
+   "connexion_error_login_failed": "An error occurred during login"
 }

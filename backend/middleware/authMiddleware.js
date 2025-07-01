@@ -6,7 +6,11 @@ const authMiddleware = async (req, res, next) => {
       const token = req.header('Authorization')?.replace('Bearer ', '');
 
       if (!token) {
-         return res.status(401).json({ error: 'No token, authorization denied' });
+         console.log('Auth middleware: No token provided');
+         return res.status(401).json({
+            error: 'No token, authorization denied',
+            code: 'NO_TOKEN'
+         });
       }
 
       // Vérifier le token
@@ -16,21 +20,36 @@ const authMiddleware = async (req, res, next) => {
       const user = await User.findById(decoded.userId).select('-password');
 
       if (!user) {
-         return res.status(401).json({ error: 'User not found' });
+         console.log('Auth middleware: User not found for token');
+         return res.status(401).json({
+            error: 'User not found',
+            code: 'USER_NOT_FOUND'
+         });
       }
 
       // Mettre l'utilisateur complet dans la requête
       req.user = user;
       next();
    } catch (error) {
+      console.error('Auth middleware error:', error.message);
+
       if (error.name === 'JsonWebTokenError') {
-         return res.status(401).json({ error: 'Token is not valid' });
+         return res.status(401).json({
+            error: 'Token is not valid',
+            code: 'INVALID_TOKEN'
+         });
       }
       if (error.name === 'TokenExpiredError') {
-         return res.status(401).json({ error: 'Token has expired' });
+         return res.status(401).json({
+            error: 'Token has expired',
+            code: 'TOKEN_EXPIRED'
+         });
       }
-      console.error('Auth middleware error:', error);
-      res.status(500).json({ error: 'Server error' });
+
+      res.status(500).json({
+         error: 'Server error',
+         code: 'SERVER_ERROR'
+      });
    }
 };
 
