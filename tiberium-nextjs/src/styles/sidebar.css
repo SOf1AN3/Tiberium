@@ -1,0 +1,21 @@
+.sidebar {
+   width: 200px;
+   position: absolute;
+   height: 100vh;
+   top: 0;
+   left: 0;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   margin-left: 20px;
+
+
+}
+
+.sidebar ul {
+   display: flex;
+   justify-content: center;
+   align-items: flex-start;
+   flex-direction: column;
+   gap: 20px;
+}

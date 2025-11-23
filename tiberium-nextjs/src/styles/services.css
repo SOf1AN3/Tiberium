@@ -1,0 +1,222 @@
+.services-wrapper {
+     position: relative;
+     min-width: none;
+     min-height: fit-content;
+     padding: 0;
+     height: 50px;
+     z-index: 1;
+}
+
+
+
+.services-title {
+     color: white;
+     font-weight: 300;
+     text-align: center;
+     margin: 150px 0;
+     margin-top: 180px;
+}
+
+.services-container {
+     display: grid;
+     grid-template-columns: repeat(4, 1fr);
+     gap: 0px;
+     transition: all 0.3s ease;
+     height: 0px;
+}
+
+.service-card {
+     background-color: #000000;
+     color: white;
+     border-radius: 10px;
+     padding: 20px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     overflow: hidden;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     text-align: center;
+     height: 200px;
+     margin: 0;
+}
+
+.service-card:not(.expanded):hover {
+     box-shadow: 0 0 150px rgba(255, 255, 255, 0.2);
+     border: solid rgba(255, 255, 255, 0.2) 1px;
+     transition: border ease 1s, background-color ease 0.3s;
+     background-color: #333333;
+
+}
+
+.service-card.service-card:not(.expanded) {
+     user-select: none;
+     margin: 0 20px;
+     margin-bottom: 20px;
+}
+
+.service-card h2 {
+     margin: 0;
+     font-size: 1.5em;
+     transition: all 0.3s ease;
+}
+
+.service-card .service-content {
+     display: none;
+}
+
+.service-card.expanded {
+     position: fixed;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     width: 100%;
+     height: 100%;
+     max-width: none;
+     z-index: 1000;
+     cursor: default;
+     border-radius: 0;
+     flex-direction: row;
+     padding: 0;
+     font-size: larger;
+}
+
+.service-card.expanded .card-image {
+     width: 50%;
+     height: 100%;
+     overflow: hidden;
+}
+
+.service-card.expanded .card-image img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+}
+
+.service-card.expanded .card-content {
+     width: 50%;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     padding: 40px;
+     box-sizing: border-box;
+     padding-top: 60px;
+     /* Adjust padding to accommodate the title */
+}
+
+/* Move title to top of description when card is open */
+.service-card.expanded h2 {
+     position: relative;
+     top: auto;
+     left: auto;
+     margin-bottom: 20px;
+     font-size: 2em;
+}
+
+.service-card.expanded .card-content h2 {
+     position: relative;
+     top: 0;
+     left: 0;
+     margin-bottom: 20px;
+     font-size: 2em;
+}
+
+.service-card.expanded .service-content {
+     display: block;
+     font-size: 1.1em;
+     line-height: 1.6;
+     opacity: 1;
+}
+
+.close-button {
+     position: absolute;
+     top: 20px;
+     right: 20px;
+     background: none;
+     border: none;
+     cursor: pointer;
+     z-index: 1001;
+     padding: 0;
+     filter: brightness(0) invert(1);
+}
+
+.close-button img:hover {
+     width: 34px;
+     transition: all 0.08s ease;
+}
+
+.close-button img {
+     width: 30px;
+     aspect-ratio: 1/1;
+     transition: all 0.08s ease;
+}
+
+.services-wrapper::-webkit-scrollbar {
+     display: none;
+}
+
+@media (max-width: 1068px) {
+     .services-container {
+          grid-template-columns: repeat(2, 1fr);
+          height: auto;
+     }
+
+     .service-card:not(.expanded) {
+          margin: 0px 20px 20px 20px;
+     }
+
+}
+
+@media (max-width: 768px) {
+     .services-wrapper {
+          overflow-y: scroll;
+          scrollbar-width: none;
+     }
+
+     .services-container {
+          grid-template-columns: 1fr;
+     }
+
+     .services-title {
+          margin: 25vh 30px;
+     }
+
+     .service-card.expanded {
+          flex-direction: column;
+          font-size: medium;
+          width: 100vw;
+          /* Ensure it takes the full width of the viewport */
+          height: auto;
+          /* Allow height to adjust based on content */
+          /* padding: 20px; */
+          margin-left: 0;
+          /* Add some padding for better readability */
+     }
+
+     .service-card.expanded .card-image,
+     .service-card.expanded .card-content {
+          width: 100%;
+          height: auto;
+          /* Allow height to adjust based on content */
+     }
+
+     .service-card.expanded h2 {
+          top: auto;
+          left: auto;
+          font-size: 1.5em;
+          /* Adjust font size for better readability */
+          margin-bottom: 20px;
+          /* Add margin for spacing */
+     }
+
+     .service-card:not(.expanded) {
+          margin: 0px 20px 20px 20px;
+     }
+
+     .services-title {
+          font-size: 1.5rem;
+     }
+}

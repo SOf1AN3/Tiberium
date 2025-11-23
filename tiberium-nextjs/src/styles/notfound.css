@@ -1,0 +1,50 @@
+.not-found-message {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     color: white;
+     text-align: center;
+     z-index: 1000;
+     margin-top: 200px;
+}
+
+.not-found-message h1 {
+     font-size: 3em;
+     margin: 0;
+}
+
+.not-found-message p {
+     font-size: 1.5em;
+     margin: 10px 0 0;
+}
+
+.background-video-404 {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100vh;
+     object-fit: cover;
+     z-index: -1;
+}
+
+.header {
+     position: relative;
+     z-index: 1001;
+     /* Doit être supérieur à 1000 pour être au-dessus de la vidéo */
+}
+
+.link {
+     color: white;
+     text-decoration: underline;
+     transition: all ease 0.5s;
+     font-size: 0.8rem;
+
+}
+
+.link:hover {
+     color: rgb(117, 117, 117);
+     font-size: 0.9rem;
+     transition: all ease 0.5s;
+}

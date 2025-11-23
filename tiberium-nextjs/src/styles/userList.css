@@ -1,0 +1,35 @@
+/* UserList.css */
+
+.user-list-container {
+     max-width: 600px;
+     margin: 0 auto;
+     padding: 20px;
+     border: 1px solid #ddd;
+     border-radius: 8px;
+     background-color: #f9f9f9;
+}
+
+.user-list-container h1 {
+     text-align: center;
+     color: #333;
+}
+
+.user-list {
+     list-style-type: none;
+     padding: 0;
+}
+
+.user-list li {
+     padding: 10px;
+     border-bottom: 1px solid #ddd;
+     color: #555;
+}
+
+.user-list li:last-child {
+     border-bottom: none;
+}
+
+.loading {
+     text-align: center;
+     color: #888;
+}
