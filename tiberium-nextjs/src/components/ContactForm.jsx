@@ -3,7 +3,7 @@ import emailjs from 'emailjs-com';
 import { useTranslation } from 'next-i18next';
 
 const ContactForm = () => {
-   const { t } = useTranslation();
+   const { t } = useTranslation('translation');
 
    const [formData, setFormData] = useState({
       name: '',

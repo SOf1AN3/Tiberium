@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const Inscription = () => {
-   const { t } = useTranslation();
+   const { t } = useTranslation('translation');
    const { signup } = useAuth();
    const router = useRouter();
    const [formData, setFormData] = useState({

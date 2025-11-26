@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const Connexion = () => {
-   const { t } = useTranslation();
+   const { t } = useTranslation('translation');
    const { login } = useAuth();
    const router = useRouter();
    const [formData, setFormData] = useState({

@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import Header from './Header';
 
 const ProfileSettings = () => {
-   const { t, i18n } = useTranslation();
+   const { t, i18n } = useTranslation('translation');
    const router = useRouter();
    const { user, getToken } = useAuth();
 

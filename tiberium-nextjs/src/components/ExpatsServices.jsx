@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
 const ExpatsServices = () => {
-   const { t } = useTranslation();
+   const { t } = useTranslation('translation');
    const [activeIndex, setActiveIndex] = useState(null);
 
    const questions = [

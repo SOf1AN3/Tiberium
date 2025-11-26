@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const Home = () => {
-   const { t } = useTranslation();
+   const { t } = useTranslation('translation');
 
    return (
       <div className='background'>

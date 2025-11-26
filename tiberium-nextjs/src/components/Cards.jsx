@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 const LazyImage = lazy(() => import('./LazyImage'));
 
 const Cards = () => {
-   const { t } = useTranslation();
+   const { t } = useTranslation('translation');
    const [expandedCard, setExpandedCard] = useState(null);
 
    const services = [

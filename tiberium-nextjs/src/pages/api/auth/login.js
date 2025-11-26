@@ -8,7 +8,12 @@ export default async function handler(req, res) {
       return res.status(405).json({ error: 'Method not allowed' });
    }
 
-   await dbConnect();
+   try {
+      await dbConnect();
+   } catch (error) {
+      console.error('Database connection error:', error);
+      return res.status(500).json({ error: 'Database connection failed' });
+   }
 
    const { email, password, rester } = req.body;
 

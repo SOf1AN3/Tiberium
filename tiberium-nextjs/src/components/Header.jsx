@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useTranslation } from 'next-i18next';
 
 const Header = () => {
-   const { t, i18n } = useTranslation();
+   const { t, i18n } = useTranslation('translation');
    const [isMenuOpen, setMenuOpen] = useState(false);
    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
    const [isFadingOut, setIsFadingOut] = useState(false);
